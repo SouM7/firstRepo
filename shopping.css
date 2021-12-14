@@ -1,6 +1,11 @@
 
 
-
+h1{
+    text-align: center; 
+    margin-top:80px;
+   
+    color: rgb(109, 90, 126);
+}
 img{
     width: 150px;
     height: 150px;

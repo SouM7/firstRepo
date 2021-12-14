@@ -1,82 +1,121 @@
 
 //initialisation
 
-let add=document.querySelector(".plus");
-let minus=document.querySelector(".minus");
-let del=document.querySelector(".delete");
-let size=document.querySelector(".size");
-console.log(size.innerHTML);
-let price1=document.querySelector(".price1");
-//let price2=document.querySelector(".price2");
-//let price3=document.querySelector(".price3");
-//let price4=document.querySelector(".price4");
+let price= document.querySelectorAll(".price");
+let add= document.querySelectorAll(".plus");
+let minus= document.querySelectorAll(".minus");
+let del= document.querySelectorAll(".delete");
+let size= document.querySelector(".size");
 let subtotal=document.querySelector(".subtotal");
 let total=document.querySelector(".total");
-let quantité=document.querySelector(".quant");
-let article1=document.querySelector(".article1");
+let quantité=document.querySelectorAll(".quant");
+
+
 //events 
 
-function sizeBtn () {
 
-let ar=[`S`,`M`,`L`,`XL`,`XXL`,`XXXL`];
+//get prices : 
 
-i=1;
- //size=ar[i];
- size.innerHTML=ar[i];
- i++;
- 
- 
-}
+let prices = [];
 
+for (let i = 0; i < price.length; i++) {
 
-
-size.addEventListener("click",sizeBtn);
-
-let q=1;
-let p=50;
-let sub=0;
-
-function addBtn() {
+    prices.push(parseInt(price[i].innerHTML))
    
-    q+=1;
-    let price=p*q;
-    quantité.innerHTML=q;
-   
-    price1.innerHTML= `${price} $`;
-
-    subtotal.innerHTML=`${price} $`;
-    total.innerHTML=`${price} $`;
 }
 
-add.addEventListener("click",addBtn);
+console.log(prices)
 
-function minBtn() {
 
+ //delete button  
+
+function deleteBtn(event) {
+
+  var btnClicked = event.target
+
+  console.log(btnClicked);
+
+  btnClicked.parentElement.remove();
   
-  q= parseInt(quantité.innerHTML);
-  price=parseInt(price1.innerHTML);
-if(q>1){
   
-  q--;
-
-  price=price-p;
-
-  price1.innerHTML=`${price} $`;
-  quantité.innerHTML=q;
-  subtotal.innerHTML=`${price} $`;
-  total.innerHTML=`${price} $`;
-}
 }
 
-minus.addEventListener("click",minBtn);
+for (let index = 0; index < del.length; index++) {
+  
+  del[index].addEventListener("click",()=>{
 
-function deleteBtn() {
-article1.innerHTML="";
-subtotal.innerHTML=`${price-price}`;
-total.innerHTML=`${price-price}`;
-
+    price[index].textContent= 0 ;
+    del[index].parentElement.remove();
     
+   } ) ;
+  
 }
 
-del.addEventListener("click",deleteBtn);
+//add button
 
+for (let i = 0; i < add.length; i++) {
+
+  add[i].addEventListener("click", (event) =>{
+
+    var btnClicked = event.target
+
+    console.log(btnClicked);
+
+    let parent =btnClicked.parentElement
+
+    let p=parent.querySelector(".quant")
+
+    p.textContent++;
+
+    price[i].innerHTML=parseInt(p.textContent)*prices[i] + "$";
+  }
+  
+  )
+  
+}
+
+// minus button
+
+for (let i = 0; i < minus.length; i++) {
+
+  minus[i].addEventListener("click", (event) =>{
+
+    var btnClicked = event.target
+
+    console.log(btnClicked);
+
+    let parent =btnClicked.parentElement
+
+    let p=parent.querySelector(".quant")
+
+    if ( p.textContent > 0) {
+
+    p.textContent-- ;
+
+    price[i].innerHTML=parseInt(p.textContent)* prices[i] + "$";
+
+    }
+  
+  })
+  
+}
+
+
+
+  function getPrice(){
+
+    let sum = 0 ;
+
+    for (let i = 0; i < price.length; i++) {
+     
+    sum += parseInt(price[i].innerHTML);
+      
+    }
+    
+    total.textContent= `${sum}$`;
+
+    subtotal.textContent = `${sum}$`;
+
+  }
+
+  setInterval(getPrice, 1);
